@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f7fbf7">
+    <title>Suap — Makan enak, dompet aman</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="#top" aria-label="Suap, beranda">
+          <span class="brand-mark">s.</span>
+          <span>suap<span class="brand-dot">.</span></span>
+        </a>
+        <nav class="main-nav" aria-label="Navigasi utama">
+          <button class="nav-link active" data-view="discover" type="button">Cari makan</button>
+          <button class="nav-link" data-view="journal" type="button">Jurnal <span class="journal-count" id="journal-count">0</span></button>
+        </nav>
+        <a class="share-link" href="#share">+ <span>Bagikan menu</span></a>
+      </header>
+
+      <main id="top">
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="hero-copy">
+            <span class="eyebrow"><span class="live-dot"></span> TEMAN MAKAN ANAK KOS SEMARANG</span>
+            <h1 id="hero-title">Laper, tapi<br><span>bingung makan?</span></h1>
+            <p>Temukan yang enak, dekat, dan pas di kantong. Rekomendasi dari teman-teman Semarang.</p>
+            <a class="hero-cta" href="#find-food">Cari menu hari ini <span aria-hidden="true">↘</span></a>
+          </div>
+          <div class="hero-art" aria-label="Sajian makanan rekomendasi">
+            <div class="hero-photo photo-main"></div>
+            <div class="hero-photo photo-small"></div>
+            <div class="scribble-note"><span>enak</span><span>mulai 10k ✳</span></div>
+            <div class="hero-sticker">🍜<br><small>worth it!</small></div>
+            <span class="art-spark spark-one">✳</span>
+            <span class="art-spark spark-two">✳</span>
+          </div>
+        </section>
+
+        <section class="find-section" id="find-food" aria-labelledby="find-title">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">PILIHANMU, HARI INI</span>
+              <h2 id="find-title">Mau makan apa?</h2>
+            </div>
+            <span class="today-label" id="today-label"></span>
+          </div>
+          <form class="filter-bar" id="filter-form">
+            <label class="filter-field budget-field">
+              <span class="field-icon mint-icon">Rp</span>
+              <span class="filter-input-wrap"><span>Budget maksimal</span><input id="budget" name="budget" type="number" min="0" step="1000" placeholder="Contoh: 15.000"></span>
+            </label>
+            <label class="filter-field location-field">
+              <span class="field-icon blue-icon">⌖</span>
+              <span class="filter-input-wrap"><span>Lagi di sekitar</span><input id="location" name="location" type="text" placeholder="Tembalang, Undip..."></span>
+            </label>
+            <label class="filter-field time-field">
+              <span class="field-icon pink-icon">☼</span>
+              <span class="filter-input-wrap"><span>Waktu makan</span><select id="meal-time" name="meal_time"><option value="">Kapan aja</option><option value="Pagi">Pagi</option><option value="Siang">Siang</option><option value="Malam">Malam</option></select></span>
+            </label>
+            <button class="search-button" type="submit" aria-label="Cari rekomendasi">Cari <span aria-hidden="true">→</span></button>
+          </form>
+        </section>
+
+        <section class="results-section view-panel" id="discover-view" aria-labelledby="results-title">
+          <div class="results-heading">
+            <div><span class="eyebrow">DARI ANAK KOS, BUAT ANAK KOS</span><h2 id="results-title">Lagi banyak disuka <span>♡</span></h2></div>
+            <span class="result-count" id="result-count"></span>
+          </div>
+          <div class="meal-chips" role="group" aria-label="Filter waktu makan">
+            <button class="meal-chip active" type="button" data-meal="">Semua menu</button>
+            <button class="meal-chip" type="button" data-meal="Pagi">☀ Pagi</button>
+            <button class="meal-chip" type="button" data-meal="Siang">☁ Siang</button>
+            <button class="meal-chip" type="button" data-meal="Malam">☾ Malam</button>
+          </div>
+          <div class="food-grid" id="food-grid" aria-live="polite"></div>
+          <div class="empty-state hidden" id="empty-state">
+            <span>🍽️</span><h3>Belum ada rekomendasi</h3><p>Jadi yang pertama berbagi menu favoritmu di Semarang.</p>
+          </div>
+        </section>
+
+        <section class="journal-section view-panel hidden" id="journal-view" aria-labelledby="journal-title">
+          <div class="results-heading">
+            <div><span class="eyebrow">JEJAK RASA DI SEMARANG</span><h2 id="journal-title">Pernah makan apa? <span>✳</span></h2></div>
+            <span class="result-count" id="journal-total"></span>
+          </div>
+          <p class="journal-intro">Semua yang pernah kamu coba, tersimpan jadi cerita kecil.</p>
+          <div class="journal-list" id="journal-list" aria-live="polite"></div>
+          <div class="empty-state hidden" id="journal-empty"><span>📖</span><h3>Jurnalnya masih kosong</h3><p>Temukan menu yang menarik, lalu catat waktu kamu mencobanya.</p><button class="text-button" id="browse-food" type="button">Cari menu <span>→</span></button></div>
+        </section>
+
+        <section class="share-section" id="share" aria-labelledby="share-title">
+          <div class="share-intro">
+            <span class="eyebrow">PUNYA SPOT HIDDEN GEM?</span>
+            <h2 id="share-title">Titip rekomendasimu<span class="pink-period">.</span></h2>
+            <p>Bantu teman lain nemu makanan enak yang nggak bikin dompet menjerit.</p>
+            <div class="share-doodle" aria-hidden="true">✳ <span>komunitas<br>lapar bahagia</span></div>
+          </div>
+          <form class="recommendation-form" id="recommendation-form" enctype="multipart/form-data">
+            <div class="form-row">
+              <label class="form-field"><span>Nama menu / tempat</span><input name="name" required maxlength="80" placeholder="Contoh: Nasi Ayam Bu Wido"></label>
+              <label class="form-field"><span>Harga per porsi</span><div class="price-input"><span>Rp</span><input name="price" type="number" required min="0" step="500" placeholder="15.000"></div></label>
+            </div>
+            <div class="form-row">
+              <label class="form-field"><span>Lokasi / area</span><input name="location" required maxlength="100" placeholder="Tembalang, Semarang"></label>
+              <label class="form-field"><span>Cocok untuk</span><select name="meal_time" required><option value="">Pilih waktu</option><option>Pagi</option><option>Siang</option><option>Malam</option></select></label>
+            </div>
+            <div class="form-row rating-row">
+              <fieldset class="rating-field"><legend>Kasih rating</legend><div class="star-picker" role="radiogroup" aria-label="Rating menu"><button type="button" role="radio" aria-checked="false" data-rating="1" aria-label="1 bintang">★</button><button type="button" role="radio" aria-checked="false" data-rating="2" aria-label="2 bintang">★</button><button type="button" role="radio" aria-checked="false" data-rating="3" aria-label="3 bintang">★</button><button type="button" role="radio" aria-checked="false" data-rating="4" aria-label="4 bintang">★</button><button type="button" role="radio" aria-checked="false" data-rating="5" aria-label="5 bintang">★</button></div><input type="hidden" name="rating" id="rating-value" value="5"></fieldset>
+              <label class="upload-field"><input type="file" name="image" accept="image/png,image/jpeg,image/webp"><span class="upload-icon">↥</span><span class="upload-copy"><strong>Tambah foto</strong><small>JPG, PNG, atau WebP · maks. 5 MB</small></span></label>
+            </div>
+            <label class="form-field description-field"><span>Cerita sedikit, dong</span><textarea name="description" required maxlength="600" rows="3" placeholder="Rasanya gimana, porsinya cukup nggak, tips pesan... "></textarea></label>
+            <div class="form-footer"><span>Rekomendasi kamu langsung dibagikan ke semua orang.</span><button class="submit-button" type="submit">Kirim rekomendasi <span>↗</span></button></div>
+            <p class="form-message" id="form-message" role="status"></p>
+          </form>
+        </section>
+      </main>
+      <footer class="footer"><a class="brand footer-brand" href="#top"><span class="brand-mark">s.</span><span>suap<span class="brand-dot">.</span></span></a><span>Dibikin dengan lapar & cinta di Semarang.</span><span>© Suap 2026</span></footer>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+  </body>
+</html>
