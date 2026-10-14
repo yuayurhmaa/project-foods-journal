@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin Dashboard - MealMemo</title>
+</head>
+<body>
+    <main>
+        <h1>MealMemo Admin Dashboard</h1>
+        <p>Kelola rekomendasi makanan yang tersimpan.</p>
+
+        <p>Total rekomendasi: {{ recommendations|length }}</p>
+
+        {% if recommendations %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nama</th>
+                        <th>Restoran</th>
+                        <th>Harga</th>
+                        <th>Lokasi</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   
+{% for item in recommendations %}
+    <tr>
+        <td>{{ item.name }}</td>
+        <td>{{ item.restaurant_name }}</td>
+        <td>{{ item.price }}</td>
+        <td>{{ item.location }}</td>
+        <td>
+            {% if item.is_demo %}
+                Data demo
+            {% else %}
+                Rekomendasi pengguna
+            {% endif %}
+        </td>
+        <td>
+            {% if not item.is_demo %}
+                <form
+                    method="POST"
+                    action="{{ url_for('admin_delete_recommendation', recommendation_id=item.id) }}"
+                    onsubmit="return confirm('Yakin ingin menghapus rekomendasi ini?');"
+                >
+                    <input
+                        type="hidden"
+                        name="csrf_token"
+                        value="{{ csrf_token }}"
+                    >
+                    <button type="submit">Hapus</button>
+                </form>
+            {% else %}
+                Tidak bisa dihapus
+            {% endif %}
+        </td>
+    </tr>
+{% endfor %}
+
+                </tbody>
+            </table>
+        {% else %}
+            <p>Belum ada rekomendasi.</p>
+        {% endif %}
+    </main>
+</body>
+</html>

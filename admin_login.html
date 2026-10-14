@@ -1,0 +1,31 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin Login - MealMemo</title>
+</head>
+<body>
+    <main>
+        <h1>MealMemo Admin</h1>
+        <p>Masuk untuk mengelola rekomendasi.</p>
+
+        {% if error %}
+            <p role="alert">{{ error }}</p>
+        {% endif %}
+
+        <form method="POST">
+            <label for="username">Username</label>
+            <input id="username" name="username" required>
+
+            <label for="password">Password</label>
+            <input id="password" name="password"
+                   type="password" required>
+
+            <button type="submit">Login</button>
+        </form>
+    </main>
+</body>
+</html>
+

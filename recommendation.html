@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f7fbf7">
+    <title>{{ recommendation.name }} — MealMemo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='mealmemo-mark.svg', v='1') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css', v='10') }}">
+  </head>
+  <body class="detail-page">
+    <div class="page-shell detail-page-shell">
+      <header class="detail-topbar">
+        <a class="brand" href="/" aria-label="MealMemo, beranda">
+          <img class="brand-mark" src="{{ url_for('static', filename='mealmemo-mark.svg', v='1') }}" alt="">
+          <span>MealMemo<span class="brand-dot">.</span></span>
+        </a>
+        <a class="share-link" href="/">← <span>Kembali ke rekomendasi</span></a>
+      </header>
+      <main class="detail-main">
+        <a class="detail-backlink" href="/">← Semua rekomendasi</a>
+        <div class="detail-layout">
+          <div class="detail-image-stage">
+            {% if recommendation.image %}
+              <div class="detail-carousel" id="detail-carousel" aria-live="polite">
+                <img class="detail-photo is-active" data-carousel-slide src="{{ recommendation.image }}" alt="Foto {{ recommendation.name }}">
+                {% if recommendation.image2 %}
+                  <img class="detail-photo" data-carousel-slide src="{{ recommendation.image2 }}" alt="Foto lain {{ recommendation.name }}">
+                  <button class="carousel-control carousel-prev" type="button" data-carousel-prev aria-label="Lihat foto sebelumnya">←</button>
+                  <button class="carousel-control carousel-next" type="button" data-carousel-next aria-label="Lihat foto berikutnya">→</button>
+                  <span class="carousel-counter" data-carousel-counter>1 / 2</span>
+                {% endif %}
+              </div>
+            {% else %}
+              <div class="detail-photo-placeholder">Foto belum ditambahkan</div>
+            {% endif %}
+          </div>
+          <article class="detail-info">
+            <span class="eyebrow">REKOMENDASI SEMARANG</span>
+            <span class="detail-meal">{{ recommendation.meal_time }}</span>
+            <h1>{{ recommendation.name }}</h1>
+            {% if recommendation.restaurant_name %}<p class="detail-restaurant">{{ recommendation.restaurant_name }}</p>{% endif %}
+            <p class="detail-price">Rp{{ "{:,.0f}".format(recommendation.price).replace(",", ".") }}</p>
+            <p class="detail-rating"><span>★</span> {{ "%.1f"|format(recommendation.rating) }} / 5</p>
+            <p class="detail-location">⌖ <a href="{{ recommendation.map_url }}" target="_blank" rel="noopener noreferrer">{{ recommendation.location_display }} <span>↗</span></a></p>
+            <p class="detail-description">{{ recommendation.description }}</p>
+            {% if recommendation.uploader_name %}<p class="detail-uploader">Dibagikan oleh {{ recommendation.uploader_name }}</p>{% endif %}
+            <a class="hero-cta detail-cta" href="{{ recommendation.map_url }}" target="_blank" rel="noopener noreferrer">Lihat di Google Maps <span>↗</span></a>
+          </article>
+        </div>
+      </main>
+    </div>
+    <script src="{{ url_for('static', filename='recommendation.js', v='1') }}" defer></script>
+  </body>
+</html>
